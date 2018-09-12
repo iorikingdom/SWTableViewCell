@@ -301,6 +301,7 @@ static NSString * const kTableViewPanState = @"state";
 
 - (void)layoutSubviews
 {
+    self.cellScrollView.delegate = nil;
     [super layoutSubviews];
     
     // Offset the contentView origin so that it appears correctly w/rt the enclosing scroll view (to which we moved it).
@@ -313,8 +314,10 @@ static NSString * const kTableViewPanState = @"state";
     if (!self.cellScrollView.isTracking && !self.cellScrollView.isDecelerating)
     {
         self.cellScrollView.contentOffset = [self contentOffsetForCellState:_cellState];
-        [self updateCellState];
     }
+    
+    [self updateCellState];
+    self.cellScrollView.delegate = self;
 }
 
 - (void)setFrame:(CGRect)frame
